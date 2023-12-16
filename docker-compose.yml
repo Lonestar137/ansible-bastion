@@ -1,0 +1,32 @@
+version: '3'
+services:
+  oraclelinux1:
+    image: prime-rhel:latest
+    container_name: gateway
+    command: /usr/sbin/sshd -D
+    ports:
+      - "2200:22"
+    networks:
+      - oracle-network
+
+  oraclelinux1:
+    image: prime-rhel:latest
+    container_name: oraclelinux1
+    command: /usr/sbin/sshd -D
+    ports:
+      - "2201:22"
+    networks:
+      - oracle-network
+
+  oraclelinux2:
+    image: prime-rhel:latest
+    container_name: oraclelinux2
+    command: /usr/sbin/sshd -D
+    ports:
+      - "2202:22"
+    networks:
+      - oracle-network
+
+networks:
+  oracle-network:
+    driver: bridge
