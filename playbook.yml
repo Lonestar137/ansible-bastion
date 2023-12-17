@@ -1,4 +1,4 @@
-- name: Manage Oracle DB group behind the gateway
+- name: Manage gateway node.
   hosts: from-outside-gateway
   gather_facts: false
   tasks:
@@ -9,9 +9,18 @@
 
 - name: Manage Oracle DB group
   hosts: oracledb
-  gather_facts: false
+  gather_facts: true
   tasks:
+    # - name: Print out all the facts
+    #   ansible.builtin.debug:
+    #     var: ansible_facts
+
     - name: Your task 1
-      ansible.builtin.command: hostname
+      ansible.builtin.debug:
+        msg: 
+          - hostname: "{{ ansible_facts['nodename'] }} "
+          - python_exe: "{{ ansible_facts['discovered_interpreter_python'] }}"
+          - python_version: "{{ ansible_facts['python_version'] }}"
+
     - name: Your task 2
       ansible.builtin.command: ls
