@@ -7,10 +7,11 @@ RUN groupadd -g 1000 prime && \
 # Set the password for the user (replace 'password' with the actual password)
 RUN echo 'prime:password' | chpasswd
 
-RUN apt update -y && apt install -y ssh
+RUN apt update -y && apt install -y ssh sudo
 RUN chown root:root /etc/ssh/sshd_config
 RUN chmod 644 /etc/ssh/sshd_config
 RUN pip3 install ansible ansible-core
+RUN usermod -aG sudo prime
 
 COPY ./inventory.ini /etc/ansible/inventory.ini
 

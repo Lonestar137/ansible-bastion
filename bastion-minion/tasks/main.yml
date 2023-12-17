@@ -1,0 +1,7 @@
+---
+# tasks file for bastion-minion
+- name: Ensure Vim is installed.
+  apt:
+    name: vim
+    state: present
+  become: yes

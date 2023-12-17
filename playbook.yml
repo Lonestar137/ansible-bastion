@@ -1,6 +1,8 @@
 - name: Manage gateway node.
   hosts: from-outside-gateway
   gather_facts: false
+  roles: 
+    - bastion
   tasks:
     - name: Test
       delegate_to: from-outside-gateway
@@ -10,6 +12,8 @@
 - name: Manage Oracle DB group
   hosts: oracledb
   gather_facts: true
+  roles: 
+    - bastion-minion
   tasks:
     # - name: Print out all the facts
     #   ansible.builtin.debug:
@@ -24,3 +28,8 @@
 
     - name: Your task 2
       ansible.builtin.command: ls
+
+    # - name: Check sshd
+    #   service:
+    #     name: sshd
+    #     state: started

@@ -1,0 +1,12 @@
+---
+# tasks file for bastion
+  - name: Testing
+    ansible.builtin.debug:
+      msg: 
+        - role: "bastion role"
+
+  - name: Install vim
+    apt:
+      name: vim
+      state: present
+    become: yes
