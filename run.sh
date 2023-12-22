@@ -8,7 +8,7 @@ if [[ $CHOICE == "run-playbook" ]]; then
     echo "Running"
     ansible-playbook ./playbook.yml -i inventory.ini --ask-become-pass
   else
-    echo "Exiting"
+    echo "Good bye."
   fi
 elif [[ $CHOICE == "build-image" ]]; then
   podman build -f Dockerfile -t prime-rhel .

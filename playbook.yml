@@ -1,3 +1,14 @@
+- name: Setup all nodes
+  hosts: from-outside-gateway oracledb
+  gather_facts: false
+  tasks:
+    - name: Copy bashrc
+      ansible.builtin.copy:
+        src: /root/.bashrc
+        dest: /home/prime/.bashrc
+        remote_src: true # By default copies from controller to the node.
+      become: true
+
 - name: Manage gateway node.
   hosts: from-outside-gateway
   gather_facts: false
@@ -23,7 +34,7 @@
       ansible.builtin.debug:
         msg: 
           - hostname: "{{ ansible_facts['nodename'] }} "
-          - python_exe: "{{ ansible_facts['discovered_interpreter_python'] }}"
+          # - python_exe: "{{ ansible_facts['discovered_interpreter_python'] }}"
           - python_version: "{{ ansible_facts['python_version'] }}"
 
     - name: Your task 2

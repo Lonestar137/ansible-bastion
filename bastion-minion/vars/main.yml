@@ -1,2 +1,4 @@
 ---
 # vars file for bastion-minion
+directory_path: "/home/prime/workspaces"
+venv_path: "/home/prime/venv"

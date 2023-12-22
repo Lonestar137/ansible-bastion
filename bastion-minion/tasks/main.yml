@@ -5,3 +5,49 @@
     name: vim
     state: present
   become: yes
+
+- name: Setup venv directory
+  block:
+    - name: Create python virtual environment
+      ansible.builtin.command: python3.10 -m venv "{{ venv_path }}"
+
+    - name: Install setuptools
+      ansible.builtin.command: python3.10 -m pip install setuptools
+
+    - name: Install packages
+      ansible.builtin.pip:
+        name:
+          - setuptools
+          - ranger-fm
+        virtualenv: "{{ venv_path }}"
+
+
+- name: Setup workspaces directory
+  block:
+    - name: Check if the directory exists
+      ansible.builtin.stat:
+        path: "{{ directory_path }}"
+      register: dir_status
+
+    - name: Make workspaces directory
+      ansible.builtin.file:
+        path: "{{ directory_path }}"
+        state: directory
+        mode: '0755'
+      when: not dir_status.stat.exists
+  
+    # Example
+    # - name: Write the apache config file
+    #   ansible.builtin.template:
+    #     src: /srv/httpd.j2
+    #     dest: /etc/httpd.conf
+
+    - name: Clone a git repository[fastapi]
+      ansible.builtin.git:
+        repo: https://github.com/tiangolo/fastapi.git
+        dest: "{{ directory_path }}/fastapi"
+
+  rescue:
+    - name: Handle the error
+      debug:
+        msg: "An error occurred while creating the directory"
