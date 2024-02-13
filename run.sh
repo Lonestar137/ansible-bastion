@@ -1,12 +1,19 @@
 #!/bin/bash
 
-CHOICE=$(gum choose build-image run-playbook gen-key )
+CHOICE=$(gum choose run-playbook build-image gen-key )
 
 if [[ $CHOICE == "run-playbook" ]]; then
+  PLAYBOOK=$(gum choose main local )
   gum confirm "Proceed with CM install?"  --default=0 && PROCEED=1 || PROCEED=0
   if [[ $PROCEED == 1 ]]; then
     echo "Running"
-    ansible-playbook ./playbook.yml -i inventory.ini --ask-become-pass
+    if [[ $PLAYBOOK == "main" ]]; then
+      ansible-playbook ./playbook.yml -i inventory.ini --ask-become-pass
+    elif [[ $PLAYBOOK == "local" ]]; then
+      pushd ./plays/local
+      ansible-playbook ./playbook.yml -i ./inventory.ini --ask-become-pass
+      popd
+    fi
   else
     echo "Good bye."
   fi

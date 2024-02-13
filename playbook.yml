@@ -1,5 +1,5 @@
 - name: Setup all nodes
-  hosts: from-outside-gateway oracledb
+  hosts: from-inside-gateway oracledb
   gather_facts: false
   tasks:
     - name: Copy bashrc
@@ -10,13 +10,13 @@
       become: true
 
 - name: Manage gateway node.
-  hosts: from-outside-gateway
+  hosts: from-inside-gateway
   gather_facts: false
   roles: 
     - bastion
   tasks:
     - name: Test
-      delegate_to: from-outside-gateway
+      delegate_to: from-inside-gateway
       ansible.builtin.command: hostname
       register: gateway_result
 
